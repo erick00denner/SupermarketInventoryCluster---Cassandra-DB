@@ -1,0 +1,9 @@
+cluster_name: 'SupermarketInventoryCluster'
+num_tokens: 256
+seed_provider:
+  - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+    parameters:
+      - seeds: "172.18.0.2"
+listen_address: localhost
+rpc_address: localhost
+endpoint_snitch: GossipingPropertyFileSnitch

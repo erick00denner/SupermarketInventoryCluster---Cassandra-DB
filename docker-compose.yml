@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+  cassandra-seed:
+    image: cassandra:latest
+    container_name: cassandra-seed
+    environment:
+      CASSANDRA_CLUSTER_NAME: "SupermarketInventoryCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra-seed"
+      MAX_HEAP_SIZE: "512M"
+      HEAP_NEWSIZE: "100M"
+    volumes:
+      - cassandra-seed-data:/var/lib/cassandra
+    networks:
+      cassandra-net:
+        ipv4_address: 172.18.0.2
+    ports:
+      - "9042:9042"
+
+  cassandra-node1:
+    image: cassandra:latest
+    container_name: cassandra-node1
+    environment:
+      CASSANDRA_CLUSTER_NAME: "SupermarketInventoryCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra-seed"
+      MAX_HEAP_SIZE: "512M"
+      HEAP_NEWSIZE: "100M"
+    volumes:
+      - cassandra-node1-data:/var/lib/cassandra
+    networks:
+      cassandra-net:
+        ipv4_address: 172.18.0.3
+
+  cassandra-node2:
+    image: cassandra:latest
+    container_name: cassandra-node2
+    environment:
+      CASSANDRA_CLUSTER_NAME: "SupermarketInventoryCluster"
+      CASSANDRA_NUM_TOKENS: 256
+      CASSANDRA_SEEDS: "cassandra-seed"
+      MAX_HEAP_SIZE: "512M"
+      HEAP_NEWSIZE: "100M"
+    volumes:
+      - cassandra-node2-data:/var/lib/cassandra
+    networks:
+      cassandra-net:
+        ipv4_address: 172.18.0.4
+
+networks:
+  cassandra-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+
+volumes:
+  cassandra-seed-data:
+  cassandra-node1-data:
+  cassandra-node2-data:
